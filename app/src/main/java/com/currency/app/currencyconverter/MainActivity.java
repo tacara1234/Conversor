@@ -82,22 +82,12 @@ public class MainActivity extends ActionBarActivity implements
         /* starting request for the api data */
         getSupportLoaderManager().restartLoader( LOADER_ID, null /* bundle */, MainActivity.this /* loader callback */);
     }
-    public boolean isNumber(String a ){
-        try{
-            Float.parseFloat(a);
-        }catch(Exception e){
-            return false;
-        }
-        return true;
-    }
+
     private void convertCurrency() {
         int fromCurrency = parseRadioIdToCurrency(mRadioGroupFrom.getCheckedRadioButtonId());
         int toCurrency = parseRadioIdToCurrency(mRadioGroupTo.getCheckedRadioButtonId());
 
-        if (!isNumber(mCurrencyInput.getText().toString())) {
-            Toast.makeText(MainActivity.this, "Numero invalido", Toast.LENGTH_SHORT).show();
 
-        }else{
         double quantity = Double.parseDouble(mCurrencyInput.getText().toString());
 
         double conversion;
@@ -122,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements
         /* displaying the result */
         DecimalFormat format = new DecimalFormat("##.##");
         mDisplayConversion.setText(format.format(conversion));
-    }
+
     }
 
     private double convertEuro( int currencyCode, double quantity ){
