@@ -82,34 +82,47 @@ public class MainActivity extends ActionBarActivity implements
         /* starting request for the api data */
         getSupportLoaderManager().restartLoader( LOADER_ID, null /* bundle */, MainActivity.this /* loader callback */);
     }
+    public boolean isNumber(String a ){
+        try{
+            Float.parseFloat(a);
+        }catch(Exception e){
+            return false;
+        }
+        return true;
+    }
+    private void convertCurrency() {
+        int fromCurrency = parseRadioIdToCurrency(mRadioGroupFrom.getCheckedRadioButtonId());
+        int toCurrency = parseRadioIdToCurrency(mRadioGroupTo.getCheckedRadioButtonId());
 
-    private void convertCurrency(){
-        int fromCurrency = parseRadioIdToCurrency( mRadioGroupFrom.getCheckedRadioButtonId() );
-        int toCurrency = parseRadioIdToCurrency( mRadioGroupTo.getCheckedRadioButtonId() );
+        if (!isNumber(mCurrencyInput.getText().toString())) {
+            Toast.makeText(MainActivity.this, "Numero invalido", Toast.LENGTH_SHORT).show();
 
-        double quantity = Double.parseDouble( mCurrencyInput.getText().toString() );
+        }else{
+        double quantity = Double.parseDouble(mCurrencyInput.getText().toString());
+
         double conversion;
 
-        switch ( fromCurrency ){
+        switch (fromCurrency) {
             case EUR:
-                conversion = convertEuro( toCurrency, quantity);
+                conversion = convertEuro(toCurrency, quantity);
                 break;
             case USD:
-                conversion = convertUSD( toCurrency, quantity );
+                conversion = convertUSD(toCurrency, quantity);
                 break;
             case MXN:
-                conversion = convertMXN( toCurrency, quantity );
+                conversion = convertMXN(toCurrency, quantity);
                 break;
             case GBP:
-                conversion = convertGBP( toCurrency, quantity );
+                conversion = convertGBP(toCurrency, quantity);
                 break;
             default:
-                throw new IllegalStateException("Invalid currency ID " + fromCurrency );
+                throw new IllegalStateException("Invalid currency ID " + fromCurrency);
         }
 
         /* displaying the result */
         DecimalFormat format = new DecimalFormat("##.##");
-        mDisplayConversion.setText( format.format( conversion ) );
+        mDisplayConversion.setText(format.format(conversion));
+    }
     }
 
     private double convertEuro( int currencyCode, double quantity ){
